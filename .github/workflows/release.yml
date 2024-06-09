@@ -24,8 +24,12 @@ jobs:
               owner: '${{ github.repository_owner }}',
               repo: '${{ github.event.repository.name }}'
             })
-            console.log(tags)
-        
+            let tag = 'v1.0.0'
+            if(tags.length) {
+              tag = tags[0].name
+            }
+            
+            console.log(tag)
   build:
     needs: tag
     strategy: 
