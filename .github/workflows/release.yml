@@ -55,7 +55,6 @@ jobs:
       - name: Compute SHA256
         id: sha
         shell: pwsh
-        working-directory: packages
         run: |
           $hash = Get-ChildItem packages | Get-FileHash -Algorithm SHA256 | Select-Object Hash -First 1
           Write-Host "${{ matrix.runtime }}-sha256=$($hash.Hash)"
