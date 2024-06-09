@@ -7,7 +7,8 @@ param(
     [Parameter()] 
     [ValidateSet('debug','release')]
     $configuration='debug',
-    $runtime
+    $runtime,
+    $version 
 )
 
 $ErrorActionPreference = "Stop"
@@ -16,7 +17,6 @@ $PSNativeCommandUseErrorActionPreference = $true
 
 $currentPlatform = 'windows'
 $runtimeId = 'win-x64'
-$version = '1.0.8'
 
 if($currentPlatform -eq 'windows') {
     if($env:PROCESSOR_ARCHITECTURE -eq 'x86') {
