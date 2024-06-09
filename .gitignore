@@ -1,3 +1,4 @@
+dist
 ### DotnetCore ###
 # .NET Core build folders
 bin/
@@ -532,4 +533,5 @@ FodyWeavers.xsd
 
 ### VisualStudio Patch ###
 # Additional files built by Visual Studio
-
+packages
+!assets/bin/
