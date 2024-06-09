@@ -27,6 +27,10 @@ if($currentPlatform -eq 'windows') {
     }
 }
 
+if($runtime) {
+    $runtimeId = $runtime
+}
+
 $projectFiles = (
     'src/QontaHub.Runner/QontaHub.Runner.csproj'
 )
