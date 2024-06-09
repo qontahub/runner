@@ -5,12 +5,21 @@ on:
   push:
 
 jobs: 
-  check:
+  tag:
+    name: Generate next tag
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: Check version
-        run: echo checking...
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const tags = await github.rest.repos.listTags({
+              owner: ${{ github.event.repository.owner.name }},
+              repo: ${{ github.event.repository.name }}
+            })
+            console.log(tags)
         
   build:
     needs: check
