@@ -11,7 +11,7 @@ jobs:
     outputs:  
       version: ${{ steps.version.outputs.version }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Dump github context
         run: echo "$GITHUB_CONTEXT"
         shell: bash
@@ -82,7 +82,7 @@ jobs:
     needs: [generate-version, build]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       
       - name: Download Artifacts
         uses: actions/download-artifact@v4
