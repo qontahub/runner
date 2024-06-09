@@ -57,7 +57,7 @@ jobs:
         shell: pwsh
         working-directory: packages
         run: |
-          $hash = Get-ChildItem packages | Get-FileHash -Algoright SHA256 | Select-Object Hash -First 1
+          $hash = Get-ChildItem packages | Get-FileHash -Algorithm SHA256 | Select-Object Hash -First 1
           Write-Host "${{ matrix.runtime }}-sha256=$($hash.Hash)"
           Write-Host "${{ matrix.runtime }}-sha256=$($hash.Hash)" >> $env:GITHUB_OUTPUT
           
