@@ -1,0 +1,38 @@
+﻿name: Build Runner
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '**.md'
+  pull_request:
+    paths-ignore:
+      - '**.md'
+
+jobs: 
+  build:
+    strategy: 
+      matrix:
+        runtime: [win-x64, win-arm64]
+        include:
+          - runtime: win-x64
+            os: windows-2019
+          - runtime: win-arm64
+            os: windows-latest
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Build
+        run: echo build
+        
+      - name: Test
+        run: echo test
+        
+      - name: Package
+        run: echo package
+        
+      - name: Upload Artifact
+        run: echo upload
