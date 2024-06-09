@@ -24,9 +24,10 @@ jobs:
               owner: '${{ github.repository_owner }}',
               repo: '${{ github.event.repository.name }}'
             })
+            
             let tag = 'v1.0.0'
-            if(tags.length) {
-              tag = tags[0].name
+            if(tags.data.length) {
+              tag = tags.data[0].name
             }
             
             console.log(tag)
