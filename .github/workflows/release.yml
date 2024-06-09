@@ -15,7 +15,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            console.log(JSON.stringify(github, null, 2))
+            console.log('github options', JSON.stringify(github, null, 2))
             const tags = await github.rest.repos.listTags({
               owner: '${{ github.event.repository.owner.name }}',
               repo: '${{ github.event.repository.name }}'
