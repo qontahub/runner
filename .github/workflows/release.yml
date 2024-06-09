@@ -22,7 +22,7 @@ jobs:
             console.log(tags)
         
   build:
-    needs: check
+    needs: tag
     strategy: 
       matrix:
         runtime: [win-x64, win-arm64]
