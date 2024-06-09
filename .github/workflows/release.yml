@@ -36,7 +36,7 @@ jobs:
             
             const parts = tag.slice(1).split('.')
             
-            newVersion = `${parts[0]}.${part[1]+1}.${parts[2]}`
+            newVersion = `${parts[0]}.${parts[1]+1}.${parts[2]}`
             core.setOutput('version', newVersion)         
   build:
     needs: generate-version
