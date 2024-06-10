@@ -9,7 +9,7 @@ jobs:
     name: Generate next tag
     runs-on: ubuntu-latest
     outputs:  
-      version: ${{ steps.version.outputs.version }}
+      version: ${{ steps.version.outputs.result }}
     steps:
       - uses: actions/checkout@v4
       - name: Dump github context
