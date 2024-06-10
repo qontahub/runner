@@ -83,6 +83,7 @@ jobs:
   release:
     needs: [generate-version, build]
     runs-on: ubuntu-latest
+    permissions: write-all
     steps:
       - uses: actions/checkout@v4
       
