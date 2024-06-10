@@ -93,7 +93,7 @@ jobs:
           name: runner-packages
           path: ./
           
-      - run: la -al
+      - run: ls -al
       - name: Create Release Notes
         id: releaseNotes
         uses: actions/github-script@v7
