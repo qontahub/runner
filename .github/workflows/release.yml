@@ -4,11 +4,11 @@ on:
   workflow_dispatch:
   push:
 
-jobs: 
+jobs:
   generate-version:
     name: Generate next tag
     runs-on: ubuntu-latest
-    outputs:  
+    outputs:
       version: ${{ steps.version.outputs.version }}
     steps:
       - uses: actions/checkout@v4
@@ -24,7 +24,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             let tag = 'v1.0.0'
-           
+            
             const tags = await github.rest.repos.listTags({
               owner: '${{ github.repository_owner }}',
               repo: '${{ github.event.repository.name }}'
@@ -40,10 +40,10 @@ jobs:
             core.setOutput('version', newVersion)         
   build:
     needs: generate-version
-    outputs: 
+    outputs:
       win-x64-sha: ${{ steps.sha.outputs.win-x64-sha256 }}
       win-arm64-sha: ${{ steps.sha.outputs.win-arm64-sha256 }}
-    strategy: 
+    strategy:
       matrix:
         runtime: [win-x64, win-arm64]
         include:
@@ -55,24 +55,24 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Package
         shell: pwsh
-        run: | 
+        run: |
           ./dev.ps1 -command package `
                     -configuration Release `
                     -runtime ${{ matrix.runtime }} `
                     -version ${{ needs.generate-version.outputs.version }}
-        
+
       - name: Compute SHA256
         id: sha
         shell: pwsh
         run: |
           $hash = Get-ChildItem packages | Get-FileHash -Algorithm SHA256 | Select-Object Hash -First 1
           Write-Host "${{ matrix.runtime }}-sha256=$($hash.Hash)" >> $env:GITHUB_OUTPUT
-      
+
       - run: ls packages/
-        
+
       - name: Upload Artifact
         uses: actions/upload-artifact@v3
         with:
@@ -86,31 +86,31 @@ jobs:
     permissions: write-all
     steps:
       - uses: actions/checkout@v4
-      
+
       - name: Download Artifacts
         uses: actions/download-artifact@v3
         with:
           name: runner-packages
           path: ./
-          
+
       - name: Create Release Notes
         id: releaseNotes
         uses: actions/github-script@v7
         with:
           script: |
             core.setOutput('note', 'Release notes, please update')
-            
+
       - name: Create Release ${{ needs.generate-version.outputs.version }}
         id: createRelease
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-         tag_name: 'v${{ needs.generate-version.outputs.version }}'
-         release_name: 'v${{ needs.generate-version.outputs.version }}'
-         body: |
-           ${{ steps.releaseNotes.outputs.note }}
-      
+          tag_name: 'v${{ needs.generate-version.outputs.version }}'
+          release_name: 'v${{ needs.generate-version.outputs.version }}'
+          body: |
+            ${{ steps.releaseNotes.outputs.note }}
+
       - name: Upload Release Asset (win-x64)
         uses: actions/upload-release-asset@v1
         env:
@@ -120,7 +120,7 @@ jobs:
           asset_path: ${{ github.workspace }}/qontahub-runner-win-x64-${{ needs.generate-version.outputs.version }}.zip
           asset_name:  qontahub-runner-win-x64-${{ needs.generate-version.outputs.version }}.zip
           asset_content_type: application/octet-stream
-            
+
       - name: Upload Release Asset (win-arm64)
         uses: actions/upload-release-asset@v1
         env:
@@ -130,7 +130,7 @@ jobs:
           asset_path: ${{ github.workspace }}/qontahub-runner-win-arm64-${{ needs.generate-version.outputs.version }}.zip
           asset_name:  qontahub-runner-win-arm64-${{ needs.generate-version.outputs.version }}.zip
           asset_content_type: application/octet-stream
-          
+  
   publish-image:
     needs: release
     runs-on: ubuntu-latest
