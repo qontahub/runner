@@ -31,18 +31,12 @@ jobs:
               repo: '${{ github.event.repository.name }}'
             })
             
-            console.log(tags)
-            
             if(tags.data.length) {
               tag = tags.data[0].name
             }
             
             const parts = tag.slice(1).split('.')
-            console.log(parts) 
-            newVersion = `${parts[0]}.${parseInt(parts[1])+1}.${parts[2]}`
-            console.log(newVersion, newVersion.length)
-            core.setOutput('version', newVersion)         
-            return newVersion
+            return `${parts[0]}.${parseInt(parts[1])+1}.${parts[2]}`
   build:
     needs: generate-version
     outputs:
