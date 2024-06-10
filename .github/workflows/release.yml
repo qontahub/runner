@@ -9,7 +9,7 @@ jobs:
     name: Generate next tag
     runs-on: ubuntu-latest
     outputs:
-      version: ${{ steps.version.outputs.version }}
+      version: ${{ steps.version.outputs.result }}
     steps:
       - uses: actions/checkout@v4
       - name: Dump github context
@@ -22,6 +22,7 @@ jobs:
         id: version
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          result-encoding: string
           script: |
             let tag = 'v1.0.0'
             
@@ -34,11 +35,12 @@ jobs:
               tag = tags.data[0].name
             }
             
-            const parts = tag.slice(1).split('.')
+            const parts = tag.split('.')
             console.log(parts) 
             newVersion = `${parts[0]}.${parseInt(parts[1])+1}.${parts[2]}`
             console.log(newVersion, newVersion.length)
             core.setOutput('version', newVersion)         
+            return newVersion
   build:
     needs: generate-version
     outputs:
