@@ -22,6 +22,7 @@ jobs:
         id: version
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          result-encoding: string
           script: |
             let tag = 'v1.0.0'
            
@@ -37,7 +38,7 @@ jobs:
             const parts = tag.slice(1).split('.')
             
             newVersion = `${parts[0]}.${parseInt(parts[1])+1}.${parts[2]}`
-            core.setOutput('version', newVersion)         
+            return newVersion
   build:
     needs: generate-version
     outputs: 
