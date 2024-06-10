@@ -82,7 +82,7 @@ function Package() {
     New-Item -Type Directory -Path packages -Force
     Dist
     if($currentPlatform -eq 'windows') {
-        Compress-Archive dist -Force `
+        Compress-Archive dist/* -Force `
             -DestinationPath "packages/qontahub-runner-$runtimeId-$version.zip"
     }
 }
