@@ -9,7 +9,7 @@ jobs:
     name: Generate next tag
     runs-on: ubuntu-latest
     outputs:  
-      version: ${{ steps.version.outputs.result }}
+      version: ${{ steps.version.outputs.version }}
     steps:
       - uses: actions/checkout@v4
       - name: Dump github context
@@ -37,7 +37,7 @@ jobs:
             const parts = tag.slice(1).split('.')
             
             newVersion = `${parts[0]}.${parseInt(parts[1])+1}.${parts[2]}`
-            return newVersion
+            core.setOutput('version', newVersion)         
   build:
     needs: generate-version
     outputs: 
