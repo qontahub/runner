@@ -31,6 +31,8 @@ jobs:
               repo: '${{ github.event.repository.name }}'
             })
             
+            console.log(tags)
+            
             if(tags.data.length) {
               tag = tags.data[0].name
             }
