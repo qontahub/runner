@@ -5,15 +5,23 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 await Host.CreateDefaultBuilder()
-    .ConfigureServices(config =>
+    .ConfigureServices(services =>
     {
-        config.AddHostedService<Runner>();
+        services.AddSingleton<RunnerContext>(new RunnerContext());
+        services.AddHostedService<Runner>();
     })
     .Build()
     .RunAsync();
 
-public class Runner: BackgroundService
+public class RunnerContext
 {
+    
+}
+
+public class Runner(RunnerContext context) : BackgroundService
+{
+    private readonly RunnerContext _context = context;
+
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         while (true)

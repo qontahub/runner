@@ -62,10 +62,9 @@ function Build() {
     if($currentPlatform -eq 'windows')
     {
         $windowsOnlyProjectFiles | ForEach-Object {
-            dotnet publish $_ --self-contained true `
-                /p:PublishTrimmed=true `
-                /p:AssemblyVersion=$version `
-                --configuration $configuration --runtime $runtimeId `
+            dotnet publish $_ --self-contained true /p:AssemblyVersion=$version `
+                --configuration $configuration `
+                --runtime $runtimeId `
                 --output dist/bin
         }
     }
