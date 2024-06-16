@@ -1,8 +1,10 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
 
-using Microsoft.Extensions.DependencyInjection;
+using System.CommandLine;using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+
+var rootCommand = new RootCommand();
 
 await Host.CreateDefaultBuilder()
     .ConfigureServices(services =>
